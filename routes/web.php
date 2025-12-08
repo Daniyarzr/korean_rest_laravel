@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\MenuController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CartController;
 
 Auth::routes();
 
@@ -20,4 +21,12 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/profile/update', [App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
     Route::get('/profile/orders', [App\Http\Controllers\ProfileController::class, 'orders'])->name('profile.orders');
     Route::get('/profile/addresses', [App\Http\Controllers\ProfileController::class, 'addresses'])->name('profile.addresses');
+});
+
+Route::prefix('cart')->group(function () {
+    Route::get('/', [CartController::class, 'index'])->name('cart.index');
+    Route::post('/add/{dish}', [CartController::class, 'add'])->name('cart.add');
+    Route::put('/update/{item}', [CartController::class, 'update'])->name('cart.update');
+    Route::delete('/remove/{item}', [CartController::class, 'remove'])->name('cart.remove');
+    Route::delete('/clear', [CartController::class, 'clear'])->name('cart.clear');
 });

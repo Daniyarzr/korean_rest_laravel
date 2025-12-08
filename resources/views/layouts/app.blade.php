@@ -52,7 +52,7 @@
                                 {{ Auth::user()->name }}
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="{{ route('home') }}">Личный кабинет</a></li>
+                                <li><a class="dropdown-item" href="{{ route('profile.index') }}">Личный кабинет</a></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
