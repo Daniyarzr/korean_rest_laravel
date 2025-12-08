@@ -123,6 +123,13 @@
 
                             <div class="mt-auto d-flex justify-content-between align-items-end">
                                 <span class="h5 text-danger mb-0">{{ number_format($dish->price, 0, '', ' ') }} ₽</span>
+                                
+                                <form action="{{ route('cart.add', $dish) }}" method="POST" class="d-inline">
+                                    @csrf
+                                    <button type="submit" class="btn btn-danger btn-sm rounded-pill">
+                                        <i class="bi bi-cart-plus"></i> В корзину
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </div>

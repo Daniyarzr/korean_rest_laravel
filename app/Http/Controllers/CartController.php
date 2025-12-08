@@ -1,5 +1,5 @@
 <?php
-// app/Http/Controllers/CartController.php
+// app/Http\Controllers/CartController.php
 
 namespace App\Http\Controllers;
 
@@ -9,14 +9,20 @@ use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
-    // Показать корзину
+    // ============= 1. ПОКАЗАТЬ КОРЗИНУ =============
     public function index()
     {
+        // Получаем текущую корзину пользователя
         $cart = $this->getCurrentCart();
+        
+        // Обновляем счетчик в сессии
+        $this->updateCartCount($cart);
+        
+        // Передаем в представление 'cart.index'
         return view('cart.index', compact('cart'));
     }
-
-    // Добавить блюдо в корзину
+    
+    // ============= 2. ДОБАВИТЬ БЛЮДО В КОРЗИНУ =============
     public function add(Request $request, Dish $dish)
     {
         $request->validate([
@@ -37,15 +43,18 @@ class CartController extends Controller
             $cart->items()->create([
                 'dish_id' => $dish->id,
                 'quantity' => $quantity,
-                'price' => $dish->price, // Сохраняем текущую цену
+                'price' => $dish->price,
             ]);
         }
+        
+        // Обновляем счетчик
+        $this->updateCartCount($cart);
 
         return redirect()->route('cart.index')
             ->with('success', 'Блюдо добавлено в корзину!');
     }
-
-    // Обновить количество
+    
+    // ============= 3. ОБНОВИТЬ КОЛИЧЕСТВО =============
     public function update(Request $request, $itemId)
     {
         $request->validate([
@@ -55,37 +64,53 @@ class CartController extends Controller
         $cart = $this->getCurrentCart();
         $item = $cart->items()->findOrFail($itemId);
         $item->update(['quantity' => $request->quantity]);
+        
+        // Обновляем счетчик
+        $this->updateCartCount($cart);
 
         return redirect()->route('cart.index')
             ->with('success', 'Корзина обновлена!');
     }
-
-    // Удалить блюдо из корзины
+    
+    // ============= 4. УДАЛИТЬ БЛЮДО ИЗ КОРЗИНЫ =============
     public function remove($itemId)
     {
         $cart = $this->getCurrentCart();
         $item = $cart->items()->findOrFail($itemId);
         $item->delete();
+        
+        // Обновляем счетчик
+        $this->updateCartCount($cart);
 
         return redirect()->route('cart.index')
             ->with('success', 'Блюдо удалено из корзины!');
     }
-
-    // Очистить корзину
+    
+    // ============= 5. ОЧИСТИТЬ КОРЗИНУ =============
     public function clear()
     {
         $cart = $this->getCurrentCart();
         $cart->items()->delete();
+        
+        // Обновляем счетчик
+        $this->updateCartCount($cart);
 
         return redirect()->route('cart.index')
             ->with('success', 'Корзина очищена!');
     }
-
-    // ===== ВСПОМОГАТЕЛЬНЫЙ МЕТОД =====
     
-    // Получить текущую корзину (из БД)
+    // ============= ВСПОМОГАТЕЛЬНЫЕ МЕТОДЫ =============
+    
+    // Получить текущую корзину
     private function getCurrentCart()
     {
-        return Cart::getCurrentCart();
+        return \App\Models\Cart::getCurrentCart();
+    }
+    
+    // Обновить счетчик в сессии
+    private function updateCartCount($cart)
+    {
+        $count = $cart->fresh()->items->sum('quantity');
+        session(['cart_count' => $count]);
     }
 }

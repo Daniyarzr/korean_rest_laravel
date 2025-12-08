@@ -30,11 +30,18 @@
                             <p class="card-text flex-grow-1">{{ Str::limit($dish->description, 80) }}</p>
                             
                             <div class="d-flex justify-content-between align-items-center mt-3">
-                                <span class="h5 mb-0 text-danger">{{ $dish->price }} ₽</span>
-                                <div>
-                                    @if($dish->is_spicy)<i class="bi bi-fire spicy me-2" title="Остро"></i>@endif
-                                    @if($dish->is_vegaterian)<i class="bi bi-leaf veg" title="Вегетарианское"></i>@endif
+                                <div style="width:80%;margin:0 auto;"class="d-flex justify-content-between align-items-center mt-3">
+                                    <span class="h5 mb-0 text-danger">{{ $dish->price }} ₽</span>
+                                    
+                                    {{-- Добавляем кнопку корзины --}}
+                                    <form action="{{ route('cart.add', $dish) }}" method="POST" class="d-inline">
+                                        @csrf
+                                        <button type="submit" class="btn btn-danger btn-sm rounded-pill">
+                                            <i class="bi bi-cart-plus"></i> В корзину
+                                        </button>
+                                    </form>
                                 </div>
+            
                             </div>
                         </div>
                     </div>
