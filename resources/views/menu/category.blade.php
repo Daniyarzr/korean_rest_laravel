@@ -15,6 +15,12 @@
 </style>
 @section('content')
 <div class="container py-5">
+    @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show text-center rounded-pill" role="alert" style="position:fixed; top:75px; right: 40; z-index:100; max-width: 500px; margin: 0 auto 30px;">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    @endif
     <!-- Заголовок -->
     <h1 class="text-center mb-5 display-5 fw-bold">{{ $category->name }}</h1>
     

@@ -28,7 +28,7 @@
 @section('content')
 <div class="container py-5">
     <h1 class="text-center mb-5 display-5 fw-bold">Полное меню</h1>
-
+ 
     <!-- Форма поиска -->
     <div class="form-search-menu text-center mb-5 ms-auto me-auto">
         <form action="{{ route('menu.index') }}" method="GET" class="d-inline-block w-100" style="max-width: 500px;">

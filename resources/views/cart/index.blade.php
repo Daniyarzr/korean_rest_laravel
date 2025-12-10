@@ -3,27 +3,13 @@
 
 @section('title', 'Корзина')
 
-<style>
-    .cart-item:hover {
-        background-color: #f8f9fa;
-    }
-    .quantity-input {
-        width: 70px;
-    }
-</style>
-
 @section('content')
 <div class="container py-5">
     <h1 class="text-center mb-5 display-5 fw-bold">🛒 Ваша корзина</h1>
 
-    @if(session('success'))
-        <div class="alert alert-success alert-dismissible fade show text-center rounded-pill" role="alert" style="position:fixed; top:75px; right: 40; z-index:100; max-width: 500px; margin: 0 auto 30px;">
-            {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-    @endif
+ 
 
-    @if($cart->items->isEmpty())
+    @if($items->isEmpty())
         <div class="alert alert-info text-center py-5 rounded-3" style="max-width: 600px; margin: 0 auto;">
             <div class="py-3">
                 <i class="bi bi-cart-x display-1 text-muted mb-4"></i>
@@ -51,7 +37,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($cart->items as $item)
+                                    @foreach($items as $item)
                                     <tr class="cart-item align-middle border-bottom">
                                         <td class="ps-0 py-3">
                                             <div class="d-flex align-items-center">
@@ -81,18 +67,18 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="text-center">
-                                            <form action="{{ route('cart.update', $item->id) }}" method="POST" class="d-inline-block">
+                                        <td class="text-center align-middle">
+                                            <form action="{{ route('cart.update', $item->dish_id) }}" method="POST" class="d-inline-block">
                                                 @csrf
                                                 @method('PUT')
                                                 <div class="d-flex align-items-center justify-content-center">
                                                     <input type="number" 
-                                                        name="quantity" 
-                                                        value="{{ $item->quantity }}" 
-                                                        min="1" 
-                                                        max="10" 
-                                                        class="form-control form-control-sm text-center quantity-input"
-                                                        style="width: 60px;">
+                                                           name="quantity" 
+                                                           value="{{ $item->quantity }}" 
+                                                           min="1" 
+                                                           max="10" 
+                                                           class="form-control form-control-sm text-center"
+                                                           style="width: 60px;">
                                                     <button type="submit" class="btn btn-outline-danger btn-sm ms-2 rounded-circle" 
                                                             style="width: 32px; height: 32px; padding: 0;">
                                                         <i class="bi bi-check"></i>
@@ -100,11 +86,11 @@
                                                 </div>
                                             </form>
                                         </td>
-                                        <td class="text-end fw-bold pe-0">
+                                        <td class="text-end fw-bold align-middle">
                                             {{ number_format($item->subtotal, 0, '', ' ') }} ₽
                                         </td>
-                                        <td class="text-end">
-                                            <form action="{{ route('cart.remove', $item->id) }}" method="POST" class="d-inline">
+                                        <td class="text-end pe-0 align-middle">
+                                            <form action="{{ route('cart.remove', $item->dish_id) }}" method="POST" class="d-inline">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-sm btn-outline-danger rounded-circle" 
@@ -126,7 +112,7 @@
                     <a href="{{ route('menu.index') }}" class="btn btn-outline-danger rounded-pill px-4 py-2">
                         <i class="bi bi-arrow-left me-2"></i> Продолжить покупки
                     </a>
-                    <form action="{{ route('cart.clear') }}" method="POST" class="d-inline m-0">
+                    <form action="{{ route('cart.clear') }}" method="POST" class="d-inline">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-outline-warning rounded-pill px-4 py-2">
@@ -144,8 +130,8 @@
                         
                         <div class="mb-3">
                             <div class="d-flex justify-content-between mb-2">
-                                <span class="text-muted">Товары ({{ $cart->items_count }} шт.)</span>
-                                <span class="fw-bold">{{ number_format($cart->total, 0, '', ' ') }} ₽</span>
+                                <span class="text-muted">Товары ({{ $items_count }} шт.)</span>
+                                <span class="fw-bold">{{ number_format($total, 0, '', ' ') }} ₽</span>
                             </div>
                             
                             <div class="d-flex justify-content-between mb-2">
@@ -157,7 +143,7 @@
                         <div class="border-top pt-3 mb-4">
                             <div class="d-flex justify-content-between align-items-center">
                                 <h5 class="mb-0">К оплате</h5>
-                                <h4 class="text-danger mb-0">{{ number_format($cart->total, 0, '', ' ') }} ₽</h4>
+                                <h4 class="text-danger mb-0">{{ number_format($total, 0, '', ' ') }} ₽</h4>
                             </div>
                         </div>
 
@@ -193,11 +179,3 @@
 </div>
 @endsection
 
-@section('scripts')
-<script>
-document.getElementById('checkoutBtn')?.addEventListener('click', function() {
-    // В будущем здесь будет логика оформления заказа
-    alert('Функция оформления заказа будет добавлена позже!');
-});
-</script>
-@endsection

@@ -10,7 +10,7 @@ class Cart extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'session_id'];
+    protected $fillable = ['user_id'];
 
     // Элементы корзины
     public function items()

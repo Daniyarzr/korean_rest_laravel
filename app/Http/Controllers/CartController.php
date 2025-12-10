@@ -1,45 +1,118 @@
 <?php
-// app/Http\Controllers/CartController.php
+// app/Http/Controllers/CartController.php
 
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Models\CartItem;
 use App\Models\Dish;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
-    // ============= 1. ПОКАЗАТЬ КОРЗИНУ =============
+    // ============= ПОКАЗАТЬ КОРЗИНУ =============
     public function index()
     {
-        // Получаем текущую корзину пользователя
-        $cart = $this->getCurrentCart();
+        // Получаем корзину (из сессии или БД)
+        $cartData = $this->getCartData();
         
-        // Обновляем счетчик в сессии
-        $this->updateCartCount($cart);
-        
-        // Передаем в представление 'cart.index'
-        return view('cart.index', compact('cart'));
+        return view('cart.index', $cartData);
     }
     
-    // ============= 2. ДОБАВИТЬ БЛЮДО В КОРЗИНУ =============
+    // ============= ДОБАВИТЬ БЛЮДО =============
     public function add(Request $request, Dish $dish)
     {
         $request->validate([
             'quantity' => 'integer|min:1|max:10',
         ]);
-
+        
         $quantity = $request->quantity ?? 1;
-        $cart = $this->getCurrentCart();
-
-        // Проверяем, есть ли уже это блюдо в корзине
+        
+        // ЕСЛИ авторизован - работаем с БД
+        if (auth()->check()) {
+            $this->addToDatabaseCart($dish, $quantity);
+        } 
+        // ЕСЛИ гость - работаем с сессией
+        else {
+            $this->addToSessionCart($dish, $quantity);
+        }
+        
+        return redirect()->back()
+            ->with('success', 'Блюдо добавлено в корзину!');
+    }
+    
+    // ============= ОБНОВИТЬ КОЛИЧЕСТВО =============
+    public function update(Request $request, $dishId)
+    {
+        $request->validate([
+            'quantity' => 'required|integer|min:1|max:10',
+        ]);
+        
+        if (auth()->check()) {
+            $this->updateDatabaseCart($dishId, $request->quantity);
+        } else {
+            $this->updateSessionCart($dishId, $request->quantity);
+        }
+        
+        return redirect()->back()
+            ->with('success', 'Корзина обновлена!');
+    }
+    
+    // ============= УДАЛИТЬ БЛЮДО =============
+    public function remove($dishId)
+    {
+        if (auth()->check()) {
+            $this->removeFromDatabaseCart($dishId);
+        } else {
+            $this->removeFromSessionCart($dishId);
+        }
+        
+        return redirect()->back()
+            ->with('success', 'Блюдо удалено из корзины!');
+    }
+    
+    // ============= ОЧИСТИТЬ КОРЗИНУ =============
+    public function clear()
+    {
+        if (auth()->check()) {
+            $cart = Cart::where('user_id', auth()->id())->first();
+            if ($cart) {
+                $cart->items()->delete();
+            }
+        } else {
+            session()->forget('cart');
+        }
+        
+        // Сбрасываем счетчик
+        session(['cart_count' => 0]);
+        
+        return redirect()->back()
+            ->with('success', 'Корзина очищена!');
+    }
+    
+    // ============= ВСПОМОГАТЕЛЬНЫЕ МЕТОДЫ =============
+    
+    // Получить данные корзины (для отображения)
+    private function getCartData()
+    {
+        if (auth()->check()) {
+            return $this->getDatabaseCart();
+        } else {
+            return $this->getSessionCart();
+        }
+    }
+    
+    // ===== МЕТОДЫ ДЛЯ РАБОТЫ С БАЗОЙ ДАННЫХ (авторизованные) =====
+    
+    private function addToDatabaseCart($dish, $quantity)
+    {
+        $cart = Cart::firstOrCreate(['user_id' => auth()->id()]);
+        
         $cartItem = $cart->items()->where('dish_id', $dish->id)->first();
-
+        
         if ($cartItem) {
-            // Если есть - увеличиваем количество
             $cartItem->increment('quantity', $quantity);
         } else {
-            // Если нет - создаем новую запись
             $cart->items()->create([
                 'dish_id' => $dish->id,
                 'quantity' => $quantity,
@@ -47,70 +120,143 @@ class CartController extends Controller
             ]);
         }
         
-        // Обновляем счетчик
-        $this->updateCartCount($cart);
-
-        return redirect()->route('cart.index')
-            ->with('success', 'Блюдо добавлено в корзину!');
+        $this->updateCartCount();
     }
     
-    // ============= 3. ОБНОВИТЬ КОЛИЧЕСТВО =============
-    public function update(Request $request, $itemId)
+    private function updateDatabaseCart($dishId, $quantity)
     {
-        $request->validate([
-            'quantity' => 'required|integer|min:1|max:10',
-        ]);
-
-        $cart = $this->getCurrentCart();
-        $item = $cart->items()->findOrFail($itemId);
-        $item->update(['quantity' => $request->quantity]);
+        $cart = Cart::where('user_id', auth()->id())->first();
+        if ($cart) {
+            $item = $cart->items()->where('dish_id', $dishId)->first();
+            if ($item) {
+                $item->update(['quantity' => $quantity]);
+            }
+        }
         
-        // Обновляем счетчик
-        $this->updateCartCount($cart);
-
-        return redirect()->route('cart.index')
-            ->with('success', 'Корзина обновлена!');
+        $this->updateCartCount();
     }
     
-    // ============= 4. УДАЛИТЬ БЛЮДО ИЗ КОРЗИНЫ =============
-    public function remove($itemId)
+    private function removeFromDatabaseCart($dishId)
     {
-        $cart = $this->getCurrentCart();
-        $item = $cart->items()->findOrFail($itemId);
-        $item->delete();
+        $cart = Cart::where('user_id', auth()->id())->first();
+        if ($cart) {
+            $item = $cart->items()->where('dish_id', $dishId)->first();
+            if ($item) {
+                $item->delete();
+            }
+        }
         
-        // Обновляем счетчик
-        $this->updateCartCount($cart);
-
-        return redirect()->route('cart.index')
-            ->with('success', 'Блюдо удалено из корзины!');
+        $this->updateCartCount();
     }
     
-    // ============= 5. ОЧИСТИТЬ КОРЗИНУ =============
-    public function clear()
+    private function getDatabaseCart()
     {
-        $cart = $this->getCurrentCart();
-        $cart->items()->delete();
+        $cart = Cart::with('items.dish')->where('user_id', auth()->id())->first();
         
-        // Обновляем счетчик
-        $this->updateCartCount($cart);
-
-        return redirect()->route('cart.index')
-            ->with('success', 'Корзина очищена!');
+        if (!$cart) {
+            return [
+                'items' => collect([]),
+                'total' => 0,
+                'items_count' => 0,
+                'is_guest' => false
+            ];
+        }
+        
+        return [
+            'items' => $cart->items,
+            'total' => $cart->total,
+            'items_count' => $cart->items_count,
+            'is_guest' => false
+        ];
     }
     
-    // ============= ВСПОМОГАТЕЛЬНЫЕ МЕТОДЫ =============
+    // ===== МЕТОДЫ ДЛЯ РАБОТЫ С СЕССИЕЙ (гости) =====
     
-    // Получить текущую корзину
-    private function getCurrentCart()
+    private function addToSessionCart($dish, $quantity)
     {
-        return \App\Models\Cart::getCurrentCart();
+        $cart = session('cart', []);
+        
+        if (isset($cart[$dish->id])) {
+            $cart[$dish->id]['quantity'] += $quantity;
+        } else {
+            $cart[$dish->id] = [
+                'dish_id' => $dish->id,
+                'dish' => $dish, // Сохраняем объект блюда
+                'quantity' => $quantity,
+                'price' => $dish->price,
+            ];
+        }
+        
+        session(['cart' => $cart]);
+        $this->updateCartCount();
     }
     
-    // Обновить счетчик в сессии
-    private function updateCartCount($cart)
+    private function updateSessionCart($dishId, $quantity)
     {
-        $count = $cart->fresh()->items->sum('quantity');
+        $cart = session('cart', []);
+        
+        if (isset($cart[$dishId])) {
+            $cart[$dishId]['quantity'] = $quantity;
+            session(['cart' => $cart]);
+        }
+        
+        $this->updateCartCount();
+    }
+    
+    private function removeFromSessionCart($dishId)
+    {
+        $cart = session('cart', []);
+        
+        if (isset($cart[$dishId])) {
+            unset($cart[$dishId]);
+            session(['cart' => $cart]);
+        }
+        
+        $this->updateCartCount();
+    }
+    
+    private function getSessionCart()
+    {
+        $cart = session('cart', []);
+        $items = collect($cart)->map(function ($item) {
+            return (object) [
+                'id' => $item['dish_id'],
+                'dish_id' => $item['dish_id'],
+                'dish' => $item['dish'],
+                'quantity' => $item['quantity'],
+                'price' => $item['price'],
+                'subtotal' => $item['price'] * $item['quantity']
+            ];
+        });
+        
+        $total = $items->sum('subtotal');
+        $itemsCount = $items->sum('quantity');
+        
+        return [
+            'items' => $items,
+            'total' => $total,
+            'items_count' => $itemsCount,
+            'is_guest' => true
+        ];
+    }
+    
+    // Обновить счетчик в сессии (общий метод)
+    private function updateCartCount()
+    {
+        $count = 0;
+        
+        if (auth()->check()) {
+            $cart = Cart::where('user_id', auth()->id())->first();
+            if ($cart) {
+                $count = $cart->items->sum('quantity');
+            }
+        } else {
+            $cart = session('cart', []);
+            foreach ($cart as $item) {
+                $count += $item['quantity'];
+            }
+        }
+        
         session(['cart_count' => $count]);
     }
 }
