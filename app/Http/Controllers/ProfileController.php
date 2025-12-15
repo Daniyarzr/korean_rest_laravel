@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -14,7 +15,8 @@ class ProfileController extends Controller
     public function index()
     {
         $user = Auth::user();
-        return view('profile.index', compact('user'));
+        $orders = Order::where('user_id', auth()->id())->get();
+        return view('profile.index', compact('user', 'orders'));
     }
 
     // Страница редактирования профиля
@@ -65,22 +67,37 @@ class ProfileController extends Controller
             ->with('success', 'Профиль успешно обновлен!');
     }
 
-    // История заказов (пока заглушка)
+   // app/Http/Controllers/ProfileController.php
     public function orders()
     {
-        $user = Auth::user();
-        // Здесь позже добавим получение реальных заказов
-        $orders = []; // Заглушка
+        $orders = Order::where('user_id', auth()->id())
+            ->with('items.dish')
+            ->latest()
+            ->get();
         
-        return view('profile.orders', compact('user', 'orders'));
+        // Обновляем статистику в profile/index
+        $totalOrders = $orders->count();
+        $activeOrders = $orders->whereIn('status', ['new', 'processing'])->count();
+        
+        return view('profile.orders', compact('orders'));
     }
 
-    // Адреса доставки (пока заглушка)
+    public function orderShow(Order $order)
+    {
+        if ($order->user_id !== auth()->id()) {
+            abort(403);
+        }
+        
+        $order->load('items.dish');
+        
+        return view('profile.order-show', compact('order'));
+    }
+
+   
     public function addresses()
     {
         $user = Auth::user();
-        // Здесь позже добавим получение адресов
-        $addresses = []; // Заглушка
+        $addresses = []; 
         
         return view('profile.addresses', compact('user', 'addresses'));
     }

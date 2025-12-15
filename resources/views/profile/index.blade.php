@@ -30,7 +30,6 @@
                         <div class="bg-secondary rounded-circle d-inline-flex align-items-center justify-content-center" 
                             style="width: 100px; height: 100px;">
                             @php
-                                // Получаем первую букву имени в верхнем регистре
                                 $firstLetter = strtoupper(substr(Auth::user()->name, 0, 1));
                             @endphp
                             <span class="text-white fw-bold" style="font-size: 2.5rem;">{{ $firstLetter }}</span>
@@ -99,8 +98,14 @@
                         <div class="card-body text-center">
                             <i class="bi bi-bag-check fs-1 text-danger mb-3"></i>
                             <h5>Всего заказов</h5>
-                            <h2 class="text-danger">0</h2>
-                            <p class="text-muted small">пока нет заказов</p>
+                            <h2 class="text-danger">
+                                {{$orders->count()}}
+                            </h2>
+                            @if($orders->count() > 0) 
+                            <p class="text-muted small">Ваши заказы</p>
+                            @else
+                            <p class="text-muted small">У вас пока нет заказов</p>
+                            @endif
                         </div>
                     </div>
                 </div>

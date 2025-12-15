@@ -148,9 +148,11 @@
                         </div>
 
                         @auth
-                            <button class="btn btn-danger btn-lg w-100 mb-3 rounded-pill" id="checkoutBtn">
-                                <i class="bi bi-bag-check me-2"></i> Оформить заказ
-                            </button>
+                            <a href="{{ route('orders.checkout') }}">
+                                <button class="btn btn-danger btn-lg w-100 mb-3 rounded-pill" id="checkoutBtn">
+                                    <i class="bi bi-bag-check me-2"></i> Оформить заказ
+                                </button>
+                            </a>
                         @else
                             <div class="alert alert-warning border-0 rounded-3 mb-3">
                                 <div class="d-flex align-items-center">

@@ -93,14 +93,14 @@ class CartController extends Controller
     // ============= ВСПОМОГАТЕЛЬНЫЕ МЕТОДЫ =============
     
     // Получить данные корзины (для отображения)
-    private function getCartData()
-    {
-        if (auth()->check()) {
-            return $this->getDatabaseCart();
-        } else {
-            return $this->getSessionCart();
-        }
+    public function getCartData()
+{
+    if (auth()->check()) {
+        return $this->getDatabaseCart();
+    } else {
+        return $this->getSessionCart();
     }
+}
     
     // ===== МЕТОДЫ ДЛЯ РАБОТЫ С БАЗОЙ ДАННЫХ (авторизованные) =====
     
