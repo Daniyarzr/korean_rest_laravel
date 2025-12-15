@@ -94,7 +94,7 @@
         </div>
 
         <!-- Правая колонка - Форма -->
-        <div class="col-lg-4">
+        <div class="col-lg-4" style="z-index:1;">
             <div class="card shadow-sm border-0 rounded-3 sticky-top" style="top: 20px;">
                 <div class="card-body p-4">
                     <h5 class="card-title mb-4 text-center"><i class="bi bi-truck me-2"></i> Данные для доставки</h5>

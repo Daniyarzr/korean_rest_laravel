@@ -3,8 +3,14 @@
 
 @section('title', 'Мои заказы')
 
+<style>
+    
+    .content-h100{
+        height:100vh;
+    }
+</style>
 @section('content')
-<div class="container py-5">
+<div class="container py-5 content-h100">
     <div class="row">
         <!-- Боковое меню (30% ширины) -->
         <div class="col-md-4 mb-4">
@@ -85,7 +91,12 @@
                 </div>
             @else
                 @foreach($orders as $order)
-                <div class="card shadow-sm border-0 rounded-3 mb-4">
+                <div class="card shadow-sm border rounded-3 mb-4 
+                @if($order->status == 'cancelled')
+                border-danger-subtle 
+                text-body-tertiary
+                text-opacity-25
+                @endif">
                     <div class="card-body p-4">
                         <div class="d-flex justify-content-between align-items-start mb-3">
                             <div>

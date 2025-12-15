@@ -71,9 +71,10 @@ class ProfileController extends Controller
     public function orders()
     {
         $orders = Order::where('user_id', auth()->id())
-            ->with('items.dish')
-            ->latest()
-            ->get();
+        ->with('items.dish')
+        ->orderByRaw("CASE WHEN status = 'cancelled' THEN 1 ELSE 0 END") // Отмененные в конец
+        ->orderBy('created_at', 'desc') // Сначала новые
+        ->get();
         
         // Обновляем статистику в profile/index
         $totalOrders = $orders->count();

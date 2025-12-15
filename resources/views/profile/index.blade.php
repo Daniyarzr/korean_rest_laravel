@@ -13,11 +13,14 @@
         border-radius: 10px;
         border: 1px solid rgba(0,0,0,.125);
     }
+    .content-h100{
+        height:100vh;
+    }
 </style>
 @section('content')
 
 
-<div class="container py-5">
+<div class="container py-5 content-h100">
     <h1 class="text-center mb-5 display-5 fw-bold">Личный кабинет</h1>
     
     <div class="row">
@@ -30,7 +33,7 @@
                         <div class="bg-secondary rounded-circle d-inline-flex align-items-center justify-content-center" 
                             style="width: 100px; height: 100px;">
                             @php
-                                $firstLetter = strtoupper(substr(Auth::user()->name, 0, 1));
+                                $firstLetter = strtoupper(mb_substr(Auth::user()->name, 0, 1));
                             @endphp
                             <span class="text-white fw-bold" style="font-size: 2.5rem;">{{ $firstLetter }}</span>
                         </div>

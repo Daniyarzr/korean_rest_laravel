@@ -13,9 +13,12 @@
     .form-label {
         font-weight: 500;
     }
+    .content-h100{
+        height:100vh;
+    }
 </style>
 @section('content')
-<div class="container py-5">
+<div class="container py-5 content-h100">
     <h1 class="text-center mb-5 display-5 fw-bold">Редактирование профиля</h1>
     
     <div class="row">
@@ -25,10 +28,10 @@
                 <div class="card-body text-center">
                     <!-- Аватарка с буквой -->
                     <div class="mb-4">
-                        <div class="bg-danger rounded-circle d-inline-flex align-items-center justify-content-center shadow-sm" 
+                        <div class="bg-secondary rounded-circle d-inline-flex align-items-center justify-content-center shadow-sm" 
                              style="width: 100px; height: 100px;">
                             <span class="text-white fw-bold" style="font-size: 2.5rem;">
-                                {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                                {{ strtoupper(mb_substr(Auth::user()->name, 0, 1)) }}
                             </span>
                         </div>
                     </div>
@@ -218,10 +221,10 @@
                             </a>
                             
                             <div>
-                                <button type="reset" class="btn btn-outline-danger me-2">
+                                <button type="reset" class="btn btn-outline-secondary me-2">
                                     <i class="bi bi-x-circle me-1"></i> Сбросить
                                 </button>
-                                <button type="submit" class="btn btn-danger">
+                                <button type="submit" class="btn btn-secondary">
                                     <i class="bi bi-check-circle me-1"></i> Сохранить изменения
                                 </button>
                             </div>
