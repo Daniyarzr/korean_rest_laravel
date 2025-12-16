@@ -1,16 +1,91 @@
 @extends('layouts.app')
 
-@section('title', 'Главная')
+@section('title', 'Кимчи House | Главная')
 
 @section('content')
 <!-- Hero -->
 <div class="hero text-center" style="max-height:870px;">
     <div class="container">
         <h1 class="display-3 fw-bold mb-4">Добро пожаловать в Кимчи House</h1>
-        <p class="lead mb-5">Настоящий вкус Кореи — кимчи, пибимпаб, острые супы и многое другое</p>
+        <p class="lead mb-5 text-white">Настоящий вкус Кореи — кимчи, пибимпаб, острые супы и многое другое</p>
         <a href="#reservation" class="btn btn-danger btn-lg px-5">Забронировать столик</a>
     </div>
 </div>
+
+<!-- О ресторане -->
+<section class="section about">
+    <div class="container about__wrapper">
+        <div class="about__text">
+            <h2 class="section-title">О нашем ресторане</h2>
+            <p>
+                Мы — ресторан корейской кухни, где традиционные рецепты сочетаются
+                с современным подходом. Мы готовим аутентичные блюда из свежих
+                ингредиентов, сохраняя настоящий вкус Кореи.
+            </p>
+            <p>
+                Вы можете прийти к нам в ресторан или заказать любимые блюда
+                с доставкой домой.
+            </p>
+        </div>
+
+        <div class="about__image">
+            <img src="/storage/images/about.jpg" alt="Корейская кухня">
+        </div>
+    </div>
+</section>
+
+<!-- Преимущества -->
+<section class="section advantages">
+    <div class="container">
+        <h2 class="section-title center">Наши преимущества</h2>
+
+        <div class="advantages__grid">
+            <div class="advantage">
+                <h3>Аутентичные рецепты</h3>
+                <p>Традиционная корейская кухня и оригинальные специи.</p>
+            </div>
+
+            <div class="advantage">
+                <h3>Онлайн-заказ</h3>
+                <p>Быстрый и удобный заказ еды через сайт.</p>
+            </div>
+
+            <div class="advantage">
+                <h3>Бронирование столов</h3>
+                <p>Забронируйте столик заранее без звонков.</p>
+            </div>
+
+            <div class="advantage">
+                <h3>Уютная атмосфера</h3>
+                <p>Комфортное пространство для встреч и отдыха.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Где нас посетить -->
+<section class="section visit">
+    <div class="container visit__wrapper">
+        <div class="visit__image">
+            <img src="/storage/images/restaurant.jpg" alt="Интерьер ресторана">
+        </div>
+
+        <div class="visit__text">
+            <h2 class="section-title">Приходите к нам</h2>
+            <p>
+                Мы будем рады видеть вас в нашем ресторане. Приходите на обед,
+                ужин или забронируйте столик для особого вечера.
+            </p>
+
+            <ul class="visit__info">
+                <li><strong>Адрес:</strong> г. Москва, ул. Пушкина, 10</li>
+                <li><strong>Время работы:</strong> ежедневно 11:00 – 23:00</li>
+            </ul>
+
+            <a href="/reservation" class="btn-primary">Забронировать столик</a>
+        </div>
+    </div>
+</section>
 
 <!-- Популярные блюда -->
 <section class="py-5">
