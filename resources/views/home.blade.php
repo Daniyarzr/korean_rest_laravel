@@ -8,7 +8,7 @@
     <div class="container">
         <h1 class="display-3 fw-bold mb-4">Добро пожаловать в Кимчи House</h1>
         <p class="lead mb-5 text-white">Настоящий вкус Кореи — кимчи, пибимпаб, острые супы и многое другое</p>
-        <a href="#reservation" class="btn btn-danger btn-lg px-5">Забронировать столик</a>
+        <a href="{{route('reservations.create')}}" class="btn btn-danger btn-lg px-5">Забронировать столик</a>
     </div>
 </div>
 

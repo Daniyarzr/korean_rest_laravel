@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReservationController;
 
 Auth::routes();
 
@@ -33,6 +34,7 @@ Route::middleware('auth')->group(function () {
         Route::put('/update', [ProfileController::class, 'update'])->name('profile.update');
         Route::get('/orders', [ProfileController::class, 'orders'])->name('profile.orders');
         Route::get('/order-show/{order}', [ProfileController::class, 'orderShow'])->name('profile.order.show');
+        Route::get('/reservations', [ProfileController::class, 'reservations'])->name('profile.reservations');
         Route::get('/addresses', [ProfileController::class, 'addresses'])->name('profile.addresses');
     });
     
@@ -43,4 +45,10 @@ Route::middleware('auth')->group(function () {
     
     // Отмена заказа
     Route::post('/orders/{order}/cancel', [OrderController::class, 'cancel'])->name('orders.cancel');
+    
+    // Бронирования (только для авторизованных)
+    Route::get('/reservations/create', [ReservationController::class, 'create'])->name('reservations.create');
+    Route::post('/reservations', [ReservationController::class, 'store'])->name('reservations.store');
+    Route::patch('/reservations/{reservation}/cancel', [ReservationController::class, 'cancel'])
+        ->name('reservations.cancel');
 });

@@ -326,12 +326,10 @@
         </div>
     </footer>
 
-    <!-- Bootstrap JS (только для dropdown и других компонентов) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     
-    <!-- Минимальный JS для алертов -->
     <script>
-    // Закрытие алертов по клику
+    
     document.addEventListener('DOMContentLoaded', function() {
         // Закрытие по клику на кнопку
         document.querySelectorAll('.alert-close-btn').forEach(function(btn) {
@@ -346,7 +344,6 @@
             });
         });
         
-        // Автоматическое удаление алертов через 5 секунд
         setTimeout(function() {
             document.querySelectorAll('.alert-notification').forEach(function(alert) {
                 alert.style.animation = 'fadeOut 0.5s ease-in forwards';

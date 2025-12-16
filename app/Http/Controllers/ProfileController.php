@@ -93,7 +93,17 @@ class ProfileController extends Controller
         
         return view('profile.order-show', compact('order'));
     }
+// отображение бронирований
+    public function reservations()
+    {
+        $reservations = auth()->user()
+            ->reservations()
+            ->orderBy('date', 'desc')
+            ->orderBy('time', 'desc')
+            ->paginate(10);
 
+        return view('profile.reservations', compact('reservations'));
+    }
    
     public function addresses()
     {

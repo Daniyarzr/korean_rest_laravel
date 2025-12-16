@@ -36,6 +36,10 @@
                            class="list-group-item list-group-item-action {{ request()->routeIs('profile.orders') ? 'active' : '' }}">
                             <i class="bi bi-bag me-2"></i> Мои заказы
                         </a>
+                        <a href="{{ route('profile.reservations') }}"
+                        class="list-group-item {{ request()->routeIs('profile.reservations') ? 'active' : '' }}">
+                            <i class="bi bi-calendar-check me-2"></i> Мои бронирования
+                        </a>
                         <a href="{{ route('profile.addresses') }}" 
                            class="list-group-item list-group-item-action {{ request()->routeIs('profile.addresses') ? 'active' : '' }}">
                             <i class="bi bi-geo-alt me-2"></i> Адреса доставки
