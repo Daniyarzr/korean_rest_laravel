@@ -8,7 +8,21 @@
     <div class="container">
         <h1 class="display-3 fw-bold mb-4">Добро пожаловать в Кимчи House</h1>
         <p class="lead mb-5 text-white">Настоящий вкус Кореи — кимчи, пибимпаб, острые супы и многое другое</p>
-        <a href="{{route('reservations.create')}}" class="btn btn-danger btn-lg px-5">Забронировать столик</a>
+        
+        @auth
+            <a href="{{ route('reservations.create') }}" class="btn btn-danger btn-lg px-5 btn-primary">
+                Забронировать столик
+            </a>
+        @endauth
+
+        @guest
+            <button type="button"
+                    class="btn btn-danger btn-lg px-5 btn-primary"
+                    id="bookTableGuestBtn">
+                Забронировать столик
+            </button>
+        @endguest
+
     </div>
 </div>
 
@@ -129,4 +143,5 @@
         </div>
     </div>
 </section>
+
 @endsection

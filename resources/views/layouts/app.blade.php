@@ -203,7 +203,13 @@
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item"><a class="nav-link" href="{{ route('home') }}">Главная</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('menu.index') }}">Меню</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#reservation">Бронь</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{route ('contacts.index')}}">Контакты</a></li>
+                    @auth
+                    <li class="nav-item"><a class="nav-link" href="{{route ('reservations.create')}}">Бронь</a></li>
+                    @endauth
+                    @guest
+                     <li class="nav-item"><a class="nav-link" id="bookTableGuestBtn" href="{{route ('reservations.create')}}">Бронь</a></li>
+                    @endguest
                 </ul>
                 
                 <!-- Корзина -->
@@ -352,7 +358,63 @@
                 }, 500);
             });
         }, 5000);
-    });
-    </script>
+        
+     const bookTableGuestBtn = document.getElementById('bookTableGuestBtn');
+    if (bookTableGuestBtn) {
+        bookTableGuestBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Создаем уведомление
+            const notification = document.createElement('div');
+            notification.className = 'alert alert-warning alert-notification d-flex align-items-center';
+            notification.setAttribute('role', 'alert');
+            notification.innerHTML = `
+                <i class="bi bi-exclamation-triangle-fill alert-icon"></i>
+                <div class="flex-grow-1">
+                    <strong class="d-block mb-1">Требуется авторизация</strong>
+                    <span class="small">Пожалуйста, войдите или зарегистрируйтесь, чтобы забронировать столик</span>
+                </div>
+                <button type="button" class="alert-close-btn">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            `;
+            
+            // Добавляем уведомление в контейнер
+            const alertsContainer = document.querySelector('.alerts-container');
+            if (alertsContainer) {
+                alertsContainer.appendChild(notification);
+                
+                // Добавляем обработчик закрытия для новой кнопки
+                const closeBtn = notification.querySelector('.alert-close-btn');
+                closeBtn.addEventListener('click', function() {
+                    notification.style.animation = 'fadeOut 0.5s ease-in forwards';
+                    setTimeout(function() {
+                        notification.remove();
+                    }, 500);
+                });
+                
+                // Автоматическое закрытие через 5 секунд
+                setTimeout(function() {
+                    notification.style.animation = 'fadeOut 0.5s ease-in forwards';
+                    setTimeout(function() {
+                        notification.remove();
+                    }, 500);
+                }, 5000);
+                
+                // Перенаправление на страницу входа при клике на уведомление
+                notification.addEventListener('click', function(e) {
+                    if (!e.target.closest('.alert-close-btn')) {
+                        window.location.href = "{{ route('login') }}";
+                    }
+                });
+            }
+        });
+    }
+});
+ 
+    
+</script>
+
+
 </body>
 </html>

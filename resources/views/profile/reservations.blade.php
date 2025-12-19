@@ -3,7 +3,7 @@
 @section('title', 'Мои бронирования')
 
 @section('content')
-<div class="container py-5 content-h100">
+<div class="container py-5">
     <div class="row">
         <!-- Боковое меню -->
         <div class="col-md-4 mb-4">

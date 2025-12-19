@@ -52,3 +52,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/reservations/{reservation}/cancel', [ReservationController::class, 'cancel'])
         ->name('reservations.cancel');
 });
+
+Route::get('/contacts', function () {
+    return view('contacts');
+})->name('contacts.index');
