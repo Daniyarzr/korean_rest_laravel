@@ -22,6 +22,7 @@ class User extends Authenticatable
         'email',
         'password',
         'phone',
+        'role',
     ];
 
     /**
@@ -51,4 +52,27 @@ class User extends Authenticatable
         return $this->hasMany(Reservation::class);
     }
 
+     public function isAdmin()
+    {
+        return $this->role === 'admin';
+    }
+
+    public function isManager()
+    {
+        return $this->role === 'manager';
+    }
+
+    public function isUser()
+    {
+        return $this->role === 'user';
+    }
+    
+    // Можно проверять несколько ролей
+    public function hasRole($roles)
+    {
+        if (is_array($roles)) {
+            return in_array($this->role, $roles);
+        }
+        return $this->role === $roles;
+    }
 }

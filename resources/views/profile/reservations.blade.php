@@ -1,53 +1,85 @@
 @extends('layouts.app')
 
 @section('title', 'Мои бронирования')
-
+<style>
+    .list-group-item.active {
+        background-color: #dc3545;
+        border-color: #dc3545;
+    }
+    .list-group-item:hover {
+        background-color: #f8f9fa;
+    }
+    .card {
+        border-radius: 10px;
+        border: 1px solid rgba(0,0,0,.125);
+    }
+    .content-h100{
+        height:100vh;
+    }
+    .btn-logout{
+        border:0;
+        background-color: #ffffff00;
+        width: 100%;
+        color:red;
+    }
+    .btn-logout:hover{
+        color: rgb(121, 121, 121);
+    }
+</style>
 @section('content')
 <div class="container py-5">
     <div class="row">
         <!-- Боковое меню -->
-        <div class="col-md-4 mb-4">
+       <div class="col-md-4 mb-4">
             <div class="card shadow-sm">
-                <div class="card-body">
+                <div class="card-body text-center">
+                    <!-- Аватарка (иконка) -->
+                    <div class="mb-4">
+                        <div class="bg-secondary rounded-circle d-inline-flex align-items-center justify-content-center" 
+                            style="width: 100px; height: 100px;">
+                            @php
+                                $firstLetter = mb_strtoupper(mb_substr(Auth::user()->name, 0, 1));
+                            @endphp
+                            <span class="text-white fw-bold" style="font-size: 2.5rem;">{{ $firstLetter }}</span>
+                        </div>
+                    </div>
+                    
                     <h5 class="mb-1">{{ Auth::user()->name }}</h5>
                     <p class="text-muted small">{{ Auth::user()->email }}</p>
-
+                    
                     <hr class="my-3">
-
+                    
+                    <!-- Меню навигации -->
                     <div class="list-group list-group-flush">
-                        <a href="{{ route('profile.index') }}"
-                           class="list-group-item {{ request()->routeIs('profile.index') ? 'active' : '' }}">
+                        <a href="{{ route('profile.index') }}" 
+                           class="list-group-item list-group-item-action {{ request()->routeIs('profile.index') ? 'active' : '' }}">
                             <i class="bi bi-person me-2"></i> Мой профиль
                         </a>
-
-                        <a href="{{ route('profile.orders') }}"
-                           class="list-group-item {{ request()->routeIs('profile.orders') ? 'active' : '' }}">
+                        <a href="{{ route('profile.orders') }}" 
+                           class="list-group-item list-group-item-action {{ request()->routeIs('profile.orders') ? 'active' : '' }}">
                             <i class="bi bi-bag me-2"></i> Мои заказы
                         </a>
-
                         <a href="{{ route('profile.reservations') }}"
-                           class="list-group-item {{ request()->routeIs('profile.reservations') ? 'active' : '' }}">
+                        class="list-group-item {{ request()->routeIs('profile.reservations') ? 'active' : '' }}">
                             <i class="bi bi-calendar-check me-2"></i> Мои бронирования
                         </a>
-
-                        <a href="{{ route('profile.addresses') }}"
-                           class="list-group-item {{ request()->routeIs('profile.addresses') ? 'active' : '' }}">
+                        <a href="{{ route('profile.addresses') }}" 
+                           class="list-group-item list-group-item-action {{ request()->routeIs('profile.addresses') ? 'active' : '' }}">
                             <i class="bi bi-geo-alt me-2"></i> Адреса доставки
                         </a>
-
-                        <a href="{{ route('profile.edit') }}"
-                           class="list-group-item {{ request()->routeIs('profile.edit') ? 'active' : '' }}">
-                            <i class="bi bi-pencil me-2"></i> Редактировать
+                        <a href="{{ route('profile.edit') }}" 
+                           class="list-group-item list-group-item-action {{ request()->routeIs('profile.edit') ? 'active' : '' }}">
+                            <i class="bi bi-pencil me-2"></i> Редактировать профиль
                         </a>
-
-                        <a href="{{ route('logout') }}"
-                           class="list-group-item text-danger"
-                           onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                            <i class="bi bi-box-arrow-right me-2"></i> Выйти
-                        </a>
-
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                            @csrf
+                        <form  id="logout-form" action="{{ route('logout') }}" method="POST" >
+                           @csrf
+                           <div class="list-group-item list-group-item-action cnt-logout border-0" >
+                            
+                            <button class="btn-logout" type="submit">
+                                <i   class="bi bi-box-arrow-right me-2"></i> 
+                                Выйти</button>
+                           </div>
+                            
                         </form>
                     </div>
                 </div>

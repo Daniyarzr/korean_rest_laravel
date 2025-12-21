@@ -16,6 +16,15 @@
     .content-h100{
         height:100vh;
     }
+    .btn-logout{
+        border:0;
+        background-color: #ffffff00;
+        width: 100%;
+        color:red;
+    }
+    .btn-logout:hover{
+        color: rgb(121, 121, 121);
+    }
 </style>
 @section('content')
 
@@ -33,7 +42,7 @@
                         <div class="bg-secondary rounded-circle d-inline-flex align-items-center justify-content-center" 
                             style="width: 100px; height: 100px;">
                             @php
-                                $firstLetter = strtoupper(mb_substr(Auth::user()->name, 0, 1));
+                                $firstLetter = mb_strtoupper(mb_substr(Auth::user()->name, 0, 1));
                             @endphp
                             <span class="text-white fw-bold" style="font-size: 2.5rem;">{{ $firstLetter }}</span>
                         </div>
@@ -66,13 +75,15 @@
                            class="list-group-item list-group-item-action {{ request()->routeIs('profile.edit') ? 'active' : '' }}">
                             <i class="bi bi-pencil me-2"></i> Редактировать профиль
                         </a>
-                        <a href="{{ route('logout') }}" 
-                           class="list-group-item list-group-item-action text-danger"
-                           onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                            <i class="bi bi-box-arrow-right me-2"></i> Выйти
-                        </a>
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                            @csrf
+                        <form  id="logout-form" action="{{ route('logout') }}" method="POST" >
+                           @csrf
+                           <div class="list-group-item list-group-item-action cnt-logout border-0" >
+                            
+                            <button class="btn-logout" type="submit">
+                                <i   class="bi bi-box-arrow-right me-2"></i> 
+                                Выйти</button>
+                           </div>
+                            
                         </form>
                     </div>
                 </div>

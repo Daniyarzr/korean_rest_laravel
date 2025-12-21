@@ -6,6 +6,9 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\Admin\DishController as AdminDishController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
+
 
 Auth::routes();
 
@@ -14,6 +17,10 @@ Route::get('/', [MenuController::class, 'home'])->name('home');
 Route::get('/menu', [MenuController::class, 'index'])->name('menu.index');
 Route::get('/menu/{category:slug}', [MenuController::class, 'category'])->name('menu.category');
 Route::get('/dish/{dish}', [MenuController::class, 'show'])->name('menu.show');
+Route::get('/contacts', function () {
+    return view('contacts');
+})->name('contacts.index');
+
 
 // Корзина (доступна всем)
 Route::prefix('cart')->group(function () {
@@ -53,6 +60,15 @@ Route::middleware('auth')->group(function () {
         ->name('reservations.cancel');
 });
 
-Route::get('/contacts', function () {
-    return view('contacts');
-})->name('contacts.index');
+Route::middleware(['auth', 'role:admin'])
+    ->prefix('admin')
+    ->name('admin.')
+    ->group(function () {
+
+        Route::get('/', function () {
+            return view('admin.dashboard');
+        })->name('dashboard');
+
+        Route::resource('dishes', AdminDishController::class);
+        Route::resource('users', AdminUserController::class);
+    });
