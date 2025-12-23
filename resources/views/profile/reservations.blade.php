@@ -29,7 +29,7 @@
 @section('content')
 <div class="container py-5">
     <div class="row">
-        <!-- Боковое меню -->
+        
        <div class="col-md-4 mb-4">
             <div class="card shadow-sm">
                 <div class="card-body text-center">
@@ -84,9 +84,14 @@
                     </div>
                 </div>
             </div>
+            @if(Auth::user()->role == 'admin' or Auth::user()->role == 'manager')
+            <div class="btn-admin-panel">
+                <a href="{{route('admin.dashboard')}}">Войти в Админ панель</a>
+            </div>
+            @endif
         </div>
 
-        <!-- Контент -->
+       
         <div class="col-md-8">
             <div class="card shadow-sm mb-4">
                 <div class="card-body d-flex justify-content-between align-items-center">

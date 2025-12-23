@@ -31,7 +31,7 @@
     <h1 class="text-center mb-5 display-5 fw-bold">Редактирование профиля</h1>
     
     <div class="row">
-        <!-- Боковое меню (такое же как в index) -->
+        
         <div class="col-md-4 mb-4">
             <div class="card shadow-sm">
                 <div class="card-body text-center">
@@ -85,9 +85,14 @@
                     </div>
                 </div>
             </div>
+            @if(Auth::user()->role == 'admin' or Auth::user()->role == 'manager')
+            <div class="btn-admin-panel">
+                <a href="{{route('admin.dashboard')}}">Войти в Админ панель</a>
+            </div>
+            @endif
         </div>
 
-        <!-- Основной контент - форма редактирования -->
+        
         <div class="col-md-8">
             <div class="card shadow-sm">
                 <div class="card-header bg-white">

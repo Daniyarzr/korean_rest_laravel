@@ -25,6 +25,7 @@
     .btn-logout:hover{
         color: rgb(121, 121, 121);
     }
+    
 </style>
 @section('content')
 
@@ -33,11 +34,11 @@
     <h1 class="text-center mb-5 display-5 fw-bold">Личный кабинет</h1>
     
     <div class="row">
-        <!-- Боковое меню (30% ширины) -->
+       
         <div class="col-md-4 mb-4">
             <div class="card shadow-sm">
                 <div class="card-body text-center">
-                    <!-- Аватарка (иконка) -->
+                   
                     <div class="mb-4">
                         <div class="bg-secondary rounded-circle d-inline-flex align-items-center justify-content-center" 
                             style="width: 100px; height: 100px;">
@@ -53,7 +54,7 @@
                     
                     <hr class="my-3">
                     
-                    <!-- Меню навигации -->
+                    
                     <div class="list-group list-group-flush">
                         <a href="{{ route('profile.index') }}" 
                            class="list-group-item list-group-item-action {{ request()->routeIs('profile.index') ? 'active' : '' }}">
@@ -88,17 +89,22 @@
                     </div>
                 </div>
             </div>
+            @if(Auth::user()->role == 'admin' or Auth::user()->role == 'manager')
+            <div class="btn-admin-panel">
+                <a href="{{route('admin.dashboard')}}">Войти в Админ панель</a>
+            </div>
+            @endif
         </div>
-
-        <!-- Основной контент (70% ширины) -->
+        
+        
         <div class="col-md-8">
-            <!-- Карточка приветствия -->
+           
             <div class="card shadow-sm mb-4">
                 <div class="card-body">
                     <h4 class="card-title mb-3">Добро пожаловать, {{ Auth::user()->name }}!</h4>
                     <p class="card-text text-muted">Здесь вы можете управлять своей учетной записью, просматривать историю заказов и настройки доставки.</p>
                     
-                    <!-- Уведомления (если есть) -->
+                    
                     @if(session('success'))
                         <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
                             <i class="bi bi-check-circle me-2"></i>
@@ -109,7 +115,7 @@
                 </div>
             </div>
 
-            <!-- Статистика (две карточки в ряд) -->
+            
             <div class="row mb-4">
                 <div class="col-md-6">
                     <div class="card border-0 bg-light">
@@ -140,7 +146,7 @@
                 </div>
             </div>
 
-            <!-- Информация о профиле -->
+          
             <div class="card shadow-sm">
                 <div class="card-header bg-white">
                     <h5 class="mb-0"><i class="bi bi-info-circle me-2"></i> Контактная информация</h5>

@@ -1,6 +1,6 @@
 @extends('admin.layout')
 
-@section('title', 'Пользователи')
+@section('title', 'Админ панель|Пользователи')
 
 @section('content')
     <div class="page-header">

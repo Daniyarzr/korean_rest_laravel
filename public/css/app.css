@@ -291,3 +291,36 @@ p {
         padding: 50px 0;
     }
 }
+
+/* PROFILE */
+.btn-admin-panel{
+        background:rgba(241, 241, 241, 1);
+        width: 65%;
+        margin:10px;
+        margin-inline:auto;
+        padding: 7px;
+        border:solid 1px gray;
+        display: flex;
+        justify-content:center;
+        transition-duration: 0.5s;
+        box-shadow: -5px -5px 5px -5px rgba(34, 60, 80, 0.6);
+        border-radius: 5px;
+    }
+    .btn-admin-panel a{
+        text-decoration:none;
+        color:rgba(49, 49, 49, 1);
+        
+    }
+    .btn-admin-panel:hover {
+        color:white;
+        box-shadow: -5px -5px 5px -5px rgba(34, 60, 80, 0.6) inset;
+    }
+      .btn-logout{
+        border:0;
+        background-color: #ffffff00;
+        width: 100%;
+        color:red;
+    }
+    .btn-logout:hover{
+        color: rgb(121, 121, 121);
+    }

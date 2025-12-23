@@ -1,8 +1,4 @@
-/* admin.css — минималистичная ч/б админка
-   Под твои Blade-шаблоны (layout + dashboard/users CRUD)
-*/
 
-/* ---------- Base / Tokens ---------- */
 :root{
   --bg: #f6f6f6;
   --panel: #ffffff;
@@ -86,15 +82,7 @@ p{ margin: 0 0 10px; }
   box-shadow: var(--shadow-soft);
 }
 
-.brand::before{
-  content: "";
-  width: 10px;
-  height: 10px;
-  border-radius: 2px;
-  background: #111;
-  display: inline-block;
-  opacity: .9;
-}
+
 
 .nav{
   margin-top: 18px;

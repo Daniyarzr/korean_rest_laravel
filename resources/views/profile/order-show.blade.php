@@ -1,4 +1,4 @@
-{{-- resources/views/profile/order-show.blade.php --}}
+
 @extends('layouts.app')
 
 @section('title', 'Заказ #' . str_pad($order->id, 6, '0', STR_PAD_LEFT))
@@ -6,16 +6,16 @@
 @section('content')
 <div class="container py-5">
     <div class="row">
-        <!-- Боковое меню (30% ширины) -->
+        
         <div class="col-md-4 mb-4">
             <div class="card shadow-sm">
                 <div class="card-body text-center">
-                    <!-- Аватарка -->
+                    
                     <div class="mb-4">
                         <div class="bg-secondary rounded-circle d-inline-flex align-items-center justify-content-center" 
                             style="width: 100px; height: 100px;">
                             @php
-                                $firstLetter = strtoupper(substr(Auth::user()->name, 0, 1));
+                                $firstLetter = mb_strtoupper(mb_substr(Auth::user()->name, 0, 1));
                             @endphp
                             <span class="text-white fw-bold" style="font-size: 2.5rem;">{{ $firstLetter }}</span>
                         </div>
@@ -26,7 +26,7 @@
                     
                     <hr class="my-3">
                     
-                    <!-- Меню навигации -->
+                   
                     <div class="list-group list-group-flush">
                         <a href="{{ route('profile.index') }}" 
                            class="list-group-item list-group-item-action {{ request()->routeIs('profile.index') ? 'active' : '' }}">
@@ -61,11 +61,16 @@
                     </div>
                 </div>
             </div>
+            @if(Auth::user()->role == 'admin' or Auth::user()->role == 'manager')
+            <div class="btn-admin-panel">
+                <a href="{{route('admin.dashboard')}}">Войти в Админ панель</a>
+            </div>
+            @endif
         </div>
 
-        <!-- Основной контент (70% ширины) -->
+        
         <div class="col-md-8">
-            <!-- Хлебные крошки -->
+          
             <nav aria-label="breadcrumb" class="mb-4">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ route('profile.orders') }}">Мои заказы</a></li>
@@ -73,7 +78,7 @@
                 </ol>
             </nav>
             
-            <!-- Заголовок -->
+            
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h1 class="display-6 fw-bold">Заказ #{{ str_pad($order->id, 6, '0', STR_PAD_LEFT) }}</h1>
                 <span class="badge 
@@ -92,7 +97,7 @@
             </div>
             
             <div class="row">
-                <!-- Левая колонка - Информация -->
+               
                 <div class="col-md-6 mb-4">
                     <div class="card shadow-sm border-0 rounded-3 h-100">
                         <div class="card-body p-4">

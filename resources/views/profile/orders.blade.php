@@ -1,4 +1,4 @@
-{{-- resources/views/profile/orders.blade.php --}}
+
 @extends('layouts.app')
 
 @section('title', 'Мои заказы')
@@ -19,13 +19,13 @@
     }
 </style>
 @section('content')
-<div class="container py-5 ">
+<div class="container py-5 content-h100">
     <div class="row">
-        <!-- Боковое меню (30% ширины) -->
+        
         <div class="col-md-4 mb-4">
             <div class="card shadow-sm">
                 <div class="card-body text-center">
-                    <!-- Аватарка (иконка) -->
+                    
                     <div class="mb-4">
                         <div class="bg-secondary rounded-circle d-inline-flex align-items-center justify-content-center" 
                             style="width: 100px; height: 100px;">
@@ -41,7 +41,7 @@
                     
                     <hr class="my-3">
                     
-                    <!-- Меню навигации -->
+                  
                     <div class="list-group list-group-flush">
                         <a href="{{ route('profile.index') }}" 
                            class="list-group-item list-group-item-action {{ request()->routeIs('profile.index') ? 'active' : '' }}">
@@ -76,11 +76,16 @@
                     </div>
                 </div>
             </div>
+            @if(Auth::user()->role == 'admin' or Auth::user()->role == 'manager')
+            <div class="btn-admin-panel">
+                <a href="{{route('admin.dashboard')}}">Войти в Админ панель</a>
+            </div>
+            @endif
         </div>
 
-        <!-- Основной контент (70% ширины) -->
+       
         <div class="col-md-8">
-            <!-- Заголовок -->
+            
             <div class="card shadow-sm mb-4">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
@@ -92,7 +97,7 @@
                 </div>
             </div>
             
-            <!-- Список заказов -->
+            
             @if($orders->isEmpty())
                 <div class="card shadow-sm text-center py-5">
                     <div class="card-body">
@@ -176,7 +181,7 @@
                         </div>
                         @endif
                         
-                        <!-- Товары в заказе -->
+                        
                         <div class="border-top pt-3">
                             <h6 class="mb-3">Состав заказа:</h6>
                             <div class="table-responsive">
@@ -207,7 +212,7 @@
                             </div>
                         </div>
                         
-                        <!-- Кнопки действий -->
+                       
                         <div class="d-flex justify-content-end gap-2 mt-3">
                             <a href="{{ route('profile.order.show', $order) }}" class="btn btn-outline-primary btn-sm rounded-pill px-3">
                                 <i class="bi bi-eye me-1"></i> Подробнее
