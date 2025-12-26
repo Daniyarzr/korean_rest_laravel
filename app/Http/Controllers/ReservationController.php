@@ -50,7 +50,7 @@ class ReservationController extends Controller
             'comment' => 'nullable|string|max:1000',
         ]);
 
-        // Проверка времени для сегодняшней даты
+        
         if ($validated['date'] === now()->toDateString()) {
             $minTime = now()->addMinutes(30)->format('H:i');
             if ($validated['time'] < $minTime) {

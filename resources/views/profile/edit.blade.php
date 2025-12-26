@@ -14,7 +14,7 @@
         font-weight: 500;
     }
     .content-h100{
-        height:100vh;
+        min-height:100vh;
     }
      .btn-logout{
         border:0;
@@ -64,10 +64,6 @@
                         class="list-group-item {{ request()->routeIs('profile.reservations') ? 'active' : '' }}">
                             <i class="bi bi-calendar-check me-2"></i> Мои бронирования
                         </a>
-                        <a href="{{ route('profile.addresses') }}" 
-                           class="list-group-item list-group-item-action {{ request()->routeIs('profile.addresses') ? 'active' : '' }}">
-                            <i class="bi bi-geo-alt me-2"></i> Адреса доставки
-                        </a>
                         <a href="{{ route('profile.edit') }}" 
                            class="list-group-item list-group-item-action {{ request()->routeIs('profile.edit') ? 'active' : '' }}">
                             <i class="bi bi-pencil me-2"></i> Редактировать профиль
@@ -87,7 +83,7 @@
             </div>
             @if(Auth::user()->role == 'admin' or Auth::user()->role == 'manager')
             <div class="btn-admin-panel">
-                <a href="{{route('admin.dashboard')}}">Войти в Админ панель</a>
+                <a href="{{route('admin.users.index')}}">Войти в Админ панель</a>
             </div>
             @endif
         </div>
@@ -100,7 +96,7 @@
                 </div>
                 
                 <div class="card-body">
-                    <!-- Сообщения об ошибках/успехе -->
+                    
                     @if($errors->any())
                         <div class="alert alert-danger alert-dismissible fade show">
                             <i class="bi bi-exclamation-triangle me-2"></i>
@@ -117,17 +113,17 @@
                         </div>
                     @endif
 
-                    <!-- Форма редактирования -->
+                   
                     <form method="POST" action="{{ route('profile.update') }}">
                         @csrf
-                        @method('PUT') <!-- Важно! Для update используем PUT -->
+                        @method('PUT') 
 
-                        <!-- Основные данные -->
+                        
                         <div class="mb-4">
                             <h5 class="border-bottom pb-2 mb-3">Основная информация</h5>
                             
                             <div class="row">
-                                <!-- Имя -->
+                                
                                 <div class="col-md-6 mb-3">
                                     <label for="name" class="form-label">
                                         <i class="bi bi-person me-1"></i> Имя *
@@ -144,7 +140,7 @@
                                     @enderror
                                 </div>
                                 
-                                <!-- Email -->
+                                
                                 <div class="col-md-6 mb-3">
                                     <label for="email" class="form-label">
                                         <i class="bi bi-envelope me-1"></i> Email *
@@ -161,7 +157,7 @@
                                     @enderror
                                 </div>
                                 
-                                <!-- Телефон -->
+                                
                                 <div class="col-md-6 mb-3">
                                     <label for="phone" class="form-label">
                                         <i class="bi bi-telephone me-1"></i> Телефон
@@ -180,7 +176,7 @@
                             </div>
                         </div>
 
-                        <!-- Смена пароля -->
+                      
                         <div class="mb-4">
                             <h5 class="border-bottom pb-2 mb-3">Смена пароля</h5>
                             <p class="text-muted small mb-4">
@@ -189,7 +185,7 @@
                             </p>
                             
                             <div class="row">
-                                <!-- Текущий пароль -->
+                               
                                 <div class="col-md-6 mb-3">
                                     <label for="current_password" class="form-label">
                                         Текущий пароль
@@ -204,7 +200,7 @@
                                     @enderror
                                 </div>
                                 
-                                <!-- Новый пароль -->
+                                
                                 <div class="col-md-6 mb-3">
                                     <label for="new_password" class="form-label">
                                         Новый пароль
@@ -219,7 +215,7 @@
                                     @enderror
                                 </div>
                                 
-                                <!-- Подтверждение пароля -->
+                                
                                 <div class="col-md-6 mb-3">
                                     <label for="new_password_confirmation" class="form-label">
                                         Подтверждение пароля

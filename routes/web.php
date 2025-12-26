@@ -31,7 +31,6 @@ Route::prefix('cart')->group(function () {
     Route::delete('/clear', [CartController::class, 'clear'])->name('cart.clear');
 });
 
-// Заказы и личный кабинет (только для авторизованных)
 Route::middleware('auth')->group(function () {
     
     // Личный кабинет
@@ -65,9 +64,9 @@ Route::middleware(['auth', 'role:admin'])
     ->name('admin.')
     ->group(function () {
 
-        Route::get('/', function () {
-            return view('admin.dashboard');
-        })->name('dashboard');
+        // Route::get('/', function () {
+        //     return view('admin.users.index');
+        // })->name('index');
 
         Route::resource('dishes', AdminDishController::class);
         Route::resource('users', AdminUserController::class);

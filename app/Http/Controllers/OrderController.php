@@ -11,10 +11,10 @@ use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
-    // Страница оформления заказа
+   
     public function checkout()
     {
-        // Получаем данные корзины
+        
         $cartController = new CartController();
         $cartData = $cartController->getCartData();
         
@@ -26,10 +26,10 @@ class OrderController extends Controller
         return view('orders.checkout', $cartData);
     }
     
-    // Создать заказ
+   
     public function store(Request $request)
     {
-        // Валидация
+       
         $validated = $request->validate([
             'customer_name' => 'required|string|max:255',
             'phone' => 'required|string|max:20',
@@ -38,7 +38,7 @@ class OrderController extends Controller
             'notes' => 'nullable|string|max:1000',
         ]);
         
-        // Получаем корзину
+      
         $cartController = new CartController();
         $cartData = $cartController->getCartData();
         
@@ -46,7 +46,7 @@ class OrderController extends Controller
             return back()->with('error', 'Корзина пуста!');
         }
         
-        // Создаем заказ
+        
         $order = Order::create([
             'user_id' => auth()->id(),
             'customer_name' => $validated['customer_name'],
@@ -58,7 +58,7 @@ class OrderController extends Controller
             'status' => 'new'
         ]);
         
-        // Добавляем товары в заказ
+        
         foreach ($cartData['items'] as $item) {
             OrderItem::create([
                 'order_id' => $order->id,
@@ -68,18 +68,18 @@ class OrderController extends Controller
             ]);
         }
         
-        // Очищаем корзину
+       
         $cartController->clear();
         
-        // Редирект на страницу успешного оформления
+        
         return redirect()->route('orders.success', $order)
             ->with('success', 'Заказ успешно оформлен!');
     }
     
-    // Страница успешного оформления
+   
     public function success(Order $order)
     {
-        // Проверяем, что заказ принадлежит пользователю
+       
         if ($order->user_id !== auth()->id()) {
             abort(403);
         }

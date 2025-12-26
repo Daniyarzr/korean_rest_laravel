@@ -68,10 +68,6 @@
                         class="list-group-item {{ request()->routeIs('profile.reservations') ? 'active' : '' }}">
                             <i class="bi bi-calendar-check me-2"></i> Мои бронирования
                         </a>
-                        <a href="{{ route('profile.addresses') }}" 
-                           class="list-group-item list-group-item-action {{ request()->routeIs('profile.addresses') ? 'active' : '' }}">
-                            <i class="bi bi-geo-alt me-2"></i> Адреса доставки
-                        </a>
                         <a href="{{ route('profile.edit') }}" 
                            class="list-group-item list-group-item-action {{ request()->routeIs('profile.edit') ? 'active' : '' }}">
                             <i class="bi bi-pencil me-2"></i> Редактировать профиль
@@ -91,7 +87,7 @@
             </div>
             @if(Auth::user()->role == 'admin' or Auth::user()->role == 'manager')
             <div class="btn-admin-panel">
-                <a href="{{route('admin.dashboard')}}">Войти в Админ панель</a>
+                <a href="{{route('admin.users.index')}}">Войти в Админ панель</a>
             </div>
             @endif
         </div>
@@ -139,8 +135,16 @@
                         <div class="card-body text-center">
                             <i class="bi bi-clock-history fs-1 text-danger mb-3"></i>
                             <h5>Активные заказы</h5>
-                            <h2 class="text-danger">0</h2>
+                            
+                                  <h2 class="text-danger">{{$act_orders->count()}}</h2>
+                            </h2>
+                            @if($act_orders->count() > 0) 
+                            <p class="text-muted small">Ваши заказы</p>
                             <p class="text-muted small">в обработке</p>
+                            @else
+                            <p class="text-muted small">У вас пока нет заказов</p>
+                            @endif
+                            
                         </div>
                     </div>
                 </div>

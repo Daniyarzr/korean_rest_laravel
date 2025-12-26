@@ -16,17 +16,16 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
         $orders = Order::where('user_id', auth()->id())->get();
-        return view('profile.index', compact('user', 'orders'));
+        $act_orders = Order::where('user_id', auth()->id())->where('status', 'new')->get();
+        return view('profile.index', compact('user', 'orders','act_orders'));
     }
 
-    // Страница редактирования профиля
     public function edit()
     {
         $user = Auth::user();
         return view('profile.edit', compact('user'));
     }
 
-    // Обновление профиля
     public function update(Request $request)
     {
         $user = Auth::user();
@@ -46,12 +45,12 @@ class ProfileController extends Controller
                 ->withInput();
         }
         
-        // Обновляем основные данные
+
         $user->name = $request->name;
         $user->email = $request->email;
         $user->phone = $request->phone;
         
-        // Обновляем пароль, если введен новый
+       
         if ($request->new_password) {
             if (!Hash::check($request->current_password, $user->password)) {
                 return redirect()->back()
@@ -67,7 +66,7 @@ class ProfileController extends Controller
             ->with('success', 'Профиль успешно обновлен!');
     }
 
-   // app/Http/Controllers/ProfileController.php
+   
     public function orders()
     {
         $orders = Order::where('user_id', auth()->id())
@@ -76,7 +75,7 @@ class ProfileController extends Controller
         ->orderBy('created_at', 'desc') // Сначала новые
         ->get();
         
-        // Обновляем статистику в profile/index
+        
         $totalOrders = $orders->count();
         $activeOrders = $orders->whereIn('status', ['new', 'processing'])->count();
         
@@ -93,7 +92,7 @@ class ProfileController extends Controller
         
         return view('profile.order-show', compact('order'));
     }
-// отображение бронирований
+
     public function reservations()
     {
         $reservations = auth()->user()

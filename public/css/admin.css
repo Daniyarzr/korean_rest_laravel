@@ -100,7 +100,14 @@ p{ margin: 0 0 10px; }
   color: rgba(15,15,16,.86);
   transition: background .18s ease, border-color .18s ease, transform .18s ease;
 }
-
+.admin-info-au{
+   display: flex;
+  align-items: center;
+  padding: 0px 12px;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  color: rgba(15,15,16,.86);
+}
 .nav-link:hover{
   background: rgba(0,0,0,.045);
   border-color: var(--border);

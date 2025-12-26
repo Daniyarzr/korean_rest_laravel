@@ -9,24 +9,13 @@
         <h1 class="display-3 fw-bold mb-4">Добро пожаловать в Кимчи House</h1>
         <p class="lead mb-5 text-white">Настоящий вкус Кореи — кимчи, пибимпаб, острые супы и многое другое</p>
         
-        @auth
-            <a href="{{ route('reservations.create') }}" class="btn btn-danger btn-lg px-5 btn-primary">
+          <a href="{{ route('reservations.create') }}" class="btn btn-danger btn-lg px-5 btn-primary">
                 Забронировать столик
             </a>
-        @endauth
-
-        @guest
-            <button type="button"
-                    class="btn btn-danger btn-lg px-5 btn-primary"
-                    id="bookTableGuestBtn">
-                Забронировать столик
-            </button>
-        @endguest
-
     </div>
 </div>
 
-<!-- О ресторане -->
+ <!-- О ресторане  -->
 <section class="section about">
     <div class="container about__wrapper">
         <div class="about__text">
@@ -96,7 +85,7 @@
                 <li><strong>Время работы:</strong> ежедневно 11:00 – 23:00</li>
             </ul>
 
-            <a href="/reservation" class="btn-primary">Забронировать столик</a>
+            <a href="{{route ('reservations.create')}}" class="btn-primary">Забронировать столик</a>
         </div>
     </div>
 </section>
@@ -145,3 +134,4 @@
 </section>
 
 @endsection
+

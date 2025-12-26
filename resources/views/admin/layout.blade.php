@@ -16,9 +16,12 @@
             <div class="brand">Админ Панель</div>
 
             <nav class="nav">
-                <a class="nav-link" href="{{ route('admin.dashboard') }}">Главная</a>
+                <p class="admin-info-au text-sm text-gray-500">Вы вошли как</p>
+                <b class="admin-info-au font-sm">{{ auth()->user()->email }}</b>
+                <p class="admin-info-au text-sm">role: {{ auth()->user()->role }}</p>
                 <a class="nav-link" href="{{ route('admin.users.index') }}">Пользователи</a>
                 <a class="nav-link" href="{{ route('admin.dishes.index') }}">Блюда</a>
+                
                 <a style="color:red;" class="nav-link" href="{{ route('profile.index') }}"><i class="bi bi-arrow-bar-left"></i>В личный кабинет</a>
             </nav>
         </aside>
