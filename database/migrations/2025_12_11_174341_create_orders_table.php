@@ -14,7 +14,7 @@ return new class extends Migration
             $table->decimal('total', 10, 2);
             $table->string('phone');
             $table->text('address');
-            $table->string('status')->default('new'); // new, processing, completed, cancelled
+            $table->string('status')->default('new'); 
             $table->timestamps();
         });
     }

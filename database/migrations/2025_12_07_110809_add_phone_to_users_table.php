@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            // Добавляем поле phone после email
+            
             $table->string('phone')
-                  ->nullable()          // Может быть пустым
-                  ->after('email');     // Размещаем после поля email
+                  ->nullable()          
+                  ->after('email');     
         });
     }
 
@@ -25,7 +25,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            // При откате миграции удаляем поле
+            
             $table->dropColumn('phone');
         });
     }
