@@ -19,7 +19,7 @@ class MenuController extends Controller
                         ->take(6)
                         ->get();
 
-        // Передаем данные в шаблон 'menu.home'
+        
         return view('home', compact('categories', 'popularDishes'));
     }
         
@@ -27,11 +27,11 @@ class MenuController extends Controller
     {
         $search = $request->input('search');
         
-        // Простой запрос
+      
         $query = Dish::with('category')->where('is_active', true);
         
         if ($search) {
-            // Просто используем LIKE без преобразований
+            
             $query->where(function($q) use ($search) {
                 $q->where('name', 'LIKE', "%{$search}%")
                 ->orWhere('description', 'LIKE', "%{$search}%");

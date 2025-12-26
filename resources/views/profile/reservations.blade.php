@@ -183,7 +183,7 @@
                         </div>
                     </div>
 
-                    <!-- Модальное окно подтверждения отмены -->
+                  <!-- модальное окно -->
                     <div class="modal fade" id="cancelModal{{ $r->id }}" tabindex="-1">
                         <div class="modal-dialog">
                             <div class="modal-content">

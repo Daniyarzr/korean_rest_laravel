@@ -1,5 +1,5 @@
 <?php
-// app/Http/Controllers/CartController.php
+
 
 namespace App\Http\Controllers;
 
@@ -10,16 +10,16 @@ use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
-    // ============= ПОКАЗАТЬ КОРЗИНУ =============
+   
     public function index()
     {
-        // Получаем корзину (из сессии или БД)
+       
         $cartData = $this->getCartData();
         
         return view('cart.index', $cartData);
     }
     
-    // ============= ДОБАВИТЬ БЛЮДО =============
+   
     public function add(Request $request, Dish $dish)
     {
         $request->validate([
@@ -28,11 +28,11 @@ class CartController extends Controller
         
         $quantity = $request->quantity ?? 1;
         
-        // ЕСЛИ авторизован - работаем с БД
+       
         if (auth()->check()) {
             $this->addToDatabaseCart($dish, $quantity);
         } 
-        // ЕСЛИ гость - работаем с сессией
+        
         else {
             $this->addToSessionCart($dish, $quantity);
         }
@@ -41,7 +41,7 @@ class CartController extends Controller
             ->with('success', 'Блюдо добавлено в корзину!');
     }
     
-    // ============= ОБНОВИТЬ КОЛИЧЕСТВО =============
+//    обновить кол-во
     public function update(Request $request, $dishId)
     {
         $request->validate([
@@ -58,7 +58,7 @@ class CartController extends Controller
             ->with('success', 'Корзина обновлена!');
     }
     
-    // ============= УДАЛИТЬ БЛЮДО =============
+    // удалить блюдо
     public function remove($dishId)
     {
         if (auth()->check()) {
@@ -71,7 +71,7 @@ class CartController extends Controller
             ->with('success', 'Блюдо удалено из корзины!');
     }
     
-    // ============= ОЧИСТИТЬ КОРЗИНУ =============
+//    очистить корзину
     public function clear()
     {
         if (auth()->check()) {
@@ -83,16 +83,14 @@ class CartController extends Controller
             session()->forget('cart');
         }
         
-        // Сбрасываем счетчик
+        
         session(['cart_count' => 0]);
         
         return redirect()->back()
             ->with('success', 'Корзина очищена!');
     }
     
-    // ============= ВСПОМОГАТЕЛЬНЫЕ МЕТОДЫ =============
-    
-    // Получить данные корзины (для отображения)
+//    Получить данные корзины
     public function getCartData()
 {
     if (auth()->check()) {
@@ -102,7 +100,7 @@ class CartController extends Controller
     }
 }
     
-    // ===== МЕТОДЫ ДЛЯ РАБОТЫ С БАЗОЙ ДАННЫХ (авторизованные) =====
+    // для работы с бд
     
     private function addToDatabaseCart($dish, $quantity)
     {
@@ -170,7 +168,7 @@ class CartController extends Controller
         ];
     }
     
-    // ===== МЕТОДЫ ДЛЯ РАБОТЫ С СЕССИЕЙ (гости) =====
+    // Для работы с сессией (гости)
     
     private function addToSessionCart($dish, $quantity)
     {
@@ -181,7 +179,7 @@ class CartController extends Controller
         } else {
             $cart[$dish->id] = [
                 'dish_id' => $dish->id,
-                'dish' => $dish, // Сохраняем объект блюда
+                'dish' => $dish, 
                 'quantity' => $quantity,
                 'price' => $dish->price,
             ];

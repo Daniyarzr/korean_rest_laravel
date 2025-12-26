@@ -90,12 +90,12 @@ class OrderController extends Controller
     // Отмена заказа
     public function cancel(Order $order)
     {
-        // Проверяем права
+       
         if ($order->user_id !== auth()->id()) {
             abort(403);
         }
         
-        // Используем метод cancel из модели Order
+       
         if ($order->cancel()) {
             return back()->with('success', 'Заказ успешно отменен');
         }

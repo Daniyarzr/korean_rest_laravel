@@ -67,7 +67,7 @@ class User extends Authenticatable
         return $this->role === 'user';
     }
     
-    // Можно проверять несколько ролей
+   
     public function hasRole($roles)
     {
         if (is_array($roles)) {

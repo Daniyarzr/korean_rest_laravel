@@ -71,8 +71,8 @@ class ProfileController extends Controller
     {
         $orders = Order::where('user_id', auth()->id())
         ->with('items.dish')
-        ->orderByRaw("CASE WHEN status = 'cancelled' THEN 1 ELSE 0 END") // Отмененные в конец
-        ->orderBy('created_at', 'desc') // Сначала новые
+        ->orderByRaw("CASE WHEN status = 'cancelled' THEN 1 ELSE 0 END") 
+        ->orderBy('created_at', 'desc') 
         ->get();
         
         

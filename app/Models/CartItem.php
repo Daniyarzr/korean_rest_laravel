@@ -1,5 +1,5 @@
 <?php
-// app/Models/CartItem.php
+
 
 namespace App\Models;
 
@@ -12,19 +12,19 @@ class CartItem extends Model
 
     protected $fillable = ['cart_id', 'dish_id', 'quantity', 'price'];
 
-    // Корзина, к которой принадлежит
+  
     public function cart()
     {
         return $this->belongsTo(Cart::class);
     }
 
-    // Блюдо
+
     public function dish()
     {
         return $this->belongsTo(Dish::class);
     }
 
-    // Подсчет суммы для позиции
+  
     public function getSubtotalAttribute()
     {
         return $this->price * $this->quantity;

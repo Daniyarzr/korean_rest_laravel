@@ -12,7 +12,7 @@
     .form-search-menu{
         width: 40%;
     }
-    /* Стили для пагинации */
+   
     .pagination .page-link {
         color: #dc3545;
         border-color: #dc3545;
@@ -22,7 +22,7 @@
         border-color: #dc3545;
     }
     .pagination .small.text-muted {
-        display:none; !important; /* Скрываем текст */
+        display:none; !important;
 }
 </style>
 @section('content')
@@ -61,7 +61,7 @@
         @endforeach
     </div>
 
-    <!-- Заголовок результатов поиска -->
+    
     @if($search)
         <div class="alert alert-info text-center mb-4">
             <h5 class="mb-0">
@@ -136,7 +136,7 @@
             @endforeach
         </div>
 
-                <!-- Наша кастомная надпись о пагинации -->
+                
         @if($allDishes->total() > 0)
             <div class="text-center text-muted small mb-3">
                 Показано от
@@ -155,7 +155,7 @@
             </div>
         @endif
 
-        <!-- Сама пагинация -->
+        <!-- пагинация -->
         @if($allDishes->hasPages())
             <div class="mt-3 text-center">
                 {{ $allDishes->withQueryString()->links('pagination::bootstrap-5') }}

@@ -18,7 +18,7 @@ class OrderItem extends Model
         return $this->belongsTo(Dish::class);
     }
     
-    // Сумма по позиции
+  
     public function getSumAttribute()
     {
         return $this->price * $this->quantity;

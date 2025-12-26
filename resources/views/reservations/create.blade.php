@@ -29,7 +29,7 @@
                 <small class="text-muted">Имя берется из вашего профиля</small>
             </div>
 
-            <!-- ИЛИ скрытое поле с именем -->
+            
             <input type="hidden" name="name" value="{{ auth()->user()->name }}">
 
 

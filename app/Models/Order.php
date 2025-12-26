@@ -27,7 +27,7 @@ class Order extends Model
         return $this->hasMany(OrderItem::class);
     }
 
-    // Отмена заказа 
+    
      public function cancel()
     {
         if ($this->canBeCancelled()) {
@@ -43,7 +43,7 @@ class Order extends Model
         return $this->status === 'new';
     }
     
-    // Простой геттер для суммы
+    // геттер для суммы
     public function getTotalFormattedAttribute()
     {
         return number_format($this->total, 0, '', ' ') . ' ₽';

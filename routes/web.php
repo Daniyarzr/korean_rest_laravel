@@ -64,10 +64,6 @@ Route::middleware(['auth', 'role:admin'])
     ->name('admin.')
     ->group(function () {
 
-        // Route::get('/', function () {
-        //     return view('admin.users.index');
-        // })->name('index');
-
         Route::resource('dishes', AdminDishController::class);
         Route::resource('users', AdminUserController::class);
     });
