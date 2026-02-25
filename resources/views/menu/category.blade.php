@@ -147,9 +147,7 @@
         <!-- Наша кастомная надпись о пагинации -->
         @if($dishes->total() > 0)
             <div class="text-center text-muted small mb-3">
-                Показано от
-                <span class="fw-bold">{{ $dishes->firstItem() }}</span>
-                до 
+                Показано
                 <span class="fw-bold">{{ $dishes->lastItem() }}</span>
                 из 
                 <span class="fw-bold">{{ $dishes->total() }}</span>

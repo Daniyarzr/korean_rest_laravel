@@ -139,9 +139,7 @@
                 
         @if($allDishes->total() > 0)
             <div class="text-center text-muted small mb-3">
-                Показано от
-                <span class="fw-bold">{{ $allDishes->firstItem() }}</span>
-                до 
+                Показано
                 <span class="fw-bold">{{ $allDishes->lastItem() }}</span>
                 из 
                 <span class="fw-bold">{{ $allDishes->total() }}</span>

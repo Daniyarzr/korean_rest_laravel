@@ -294,7 +294,6 @@ p {
 
 /* PROFILE */
 .btn-admin-panel{
-        background:rgba(241, 241, 241, 1);
         width: 65%;
         margin:10px;
         margin-inline:auto;
@@ -305,10 +304,12 @@ p {
         transition-duration: 0.5s;
         box-shadow: -5px -5px 5px -5px rgba(34, 60, 80, 0.6);
         border-radius: 5px;
+        background-color: #0d6dfdd2;
     }
     .btn-admin-panel a{
         text-decoration:none;
-        color:rgba(49, 49, 49, 1);
+        color:rgb(255, 255, 255);
+        
         
     }
     .btn-admin-panel:hover {

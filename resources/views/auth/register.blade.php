@@ -40,7 +40,6 @@
                         <div class="form-group">
                             <label for="phone">{{ __('Phone Number') }}</label>
                             <input id="phone" type="tel" class="form-control" name="phone">
-                            <small class="form-text text-muted">{{ __('Optional') }}</small>
                         </div>
                         <!-- Пароль -->
                         <div class="mb-3">
