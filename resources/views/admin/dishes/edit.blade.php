@@ -23,7 +23,7 @@
     @endif
 
     <div class="card">
-        <form method="POST" action="{{ route('admin.dishes.update', $dish) }}">
+        <form method="POST" action="{{ route('admin.dishes.update', $dish) }}" enctype="multipart/form-data">
             @csrf
             @method('PUT')
 
@@ -37,6 +37,19 @@
                        required 
                        autofocus>
                 <small>Максимум 255 символов</small>
+            </div>
+
+            <div class="form-group">
+                <label for="category_id">Категория *</label>
+                <select id="category_id" name="category_id" required>
+                    <option value="">Выберите категорию</option>
+                    @foreach ($categories as $category)
+                        <option value="{{ $category->id }}" {{ old('category_id', $dish->category_id) == $category->id ? 'selected' : '' }}>
+                            {{ $category->name }}
+                        </option>
+                    @endforeach
+                </select>
+                <small>Выберите категорию для блюда</small>
             </div>
 
             <div class="form-group">
@@ -61,6 +74,23 @@
                 <small>Необязательное поле</small>
             </div>
 
+            <div class="form-group">
+                <label>Текущее изображение</label>
+                @if($dish->url_image)
+                    <div class="mb-3">
+                        <img src="{{ asset('storage/' . $dish->url_image) }}" 
+                             alt="{{ $dish->name }}"
+                             style="max-width: 320px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.15);">
+                    </div>
+                @else
+                    <p class="text-gray-500">Изображения пока нет</p>
+                @endif
+                
+                <label for="image">Заменить изображение</label>
+                <input type="file" id="image" name="image" accept="image/jpeg,image/png,image/jpg,image/webp">
+                <small>Рекомендуемый размер: 800×600 px. JPG, PNG, WEBP. Макс. 5 МБ. Оставьте пустым, если не хотите менять.</small>
+            </div>
+
             <div class="dish-info mt-4 p-3 bg-gray-50 rounded">
                 <h3 class="font-semibold">Информация о блюде</h3>
                 <p><strong>Создано:</strong> {{ $dish->created_at->format('d.m.Y H:i') }}</p>
@@ -70,16 +100,17 @@
             <div class="form-actions">
                 <button type="submit" class="btn primary">Сохранить изменения</button>
                 <a class="btn" href="{{ route('admin.dishes.index') }}">Отмена</a>
-                
-                <form method="POST" 
-                      action="{{ route('admin.dishes.destroy', $dish) }}" 
-                      class="inline-form"
-                      onsubmit="return confirm('Вы уверены, что хотите удалить это блюдо?');">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn danger">Удалить блюдо</button>
-                </form>
             </div>
+        </form>
+
+        <!-- Форма удаления вынесена ВНЕ формы редактирования -->
+        <form method="POST" 
+              action="{{ route('admin.dishes.destroy', $dish) }}" 
+              class="inline-form"
+              onsubmit="return confirm('Вы уверены, что хотите удалить это блюдо?');">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn danger">Удалить блюдо</button>
         </form>
     </div>
 @endsection

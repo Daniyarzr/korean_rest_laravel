@@ -20,7 +20,9 @@
                 <thead>
                     <tr>
                         <th>ID</th>
+                        <th>Фото</th>
                         <th>Название</th>
+                        <th>Категория</th>
                         <th>Описание</th>
                         <th>Цена</th>
                         <th>Дата создания</th>
@@ -31,7 +33,17 @@
                     @foreach ($dishes as $dish)
                         <tr>
                             <td>#{{ $dish->id }}</td>
+                            <td>
+                                @if($dish->url_image)
+                                    <img src="{{ asset('storage/' . $dish->url_image) }}" 
+                                         alt="{{ $dish->name }}"
+                                         style="width: 60px; height: 60px; object-fit: cover; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                                @else
+                                    <span class="text-gray-400">—</span>
+                                @endif
+                            </td>
                             <td>{{ $dish->name }}</td>
+                            <td>{{ $dish->category->name ?? '—' }}</td>
                             <td>{{ Str::limit($dish->description ?? '—', 50) }}</td>
                             <td>{{ number_format($dish->price, 0, '', ' ') }} ₽</td>
                             <td>{{ $dish->created_at->format('d.m.Y') }}</td>

@@ -13,7 +13,8 @@ class Dish extends Model
         'url_image',
         'is_spicy',
         'is_vegetarian',
-        'is_active'
+        'is_active',
+        'category_id',
     ];
 
     public function category()
