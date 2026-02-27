@@ -4,7 +4,7 @@
 @section('title', 'Заказ #' . str_pad($order->id, 6, '0', STR_PAD_LEFT))
 
 @section('content')
-<div class="container py-5">
+<div class="container py-5 content-h100">
     <div class="row">
         
         <div class="col-md-4 mb-4">

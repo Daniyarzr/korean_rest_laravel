@@ -2,7 +2,7 @@
 
 @section('title', 'Регистрация')
 @section('content')
-<div class="container py-5">
+<div class="container py-5  content-h100">
     <div class="row justify-content-center">
         <div class="col-md-6">
             <div class="card shadow">
