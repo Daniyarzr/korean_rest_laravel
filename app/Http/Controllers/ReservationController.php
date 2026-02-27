@@ -12,7 +12,7 @@ class ReservationController extends Controller
     public function create()
     {
         $today = now()->toDateString();
-        
+        Carbon::setLocale('ru');
         
         $dates = collect(range(0, 6))->map(function ($days) {
             $date = now()->addDays($days);
